@@ -1,5 +1,5 @@
 {
-  "name": "postcss-bs-tailwind",
+  "name": "@kgoggin/postcss-bs-tailwind",
   "version": "0.1.0",
   "description": "A PostCSS plugin for generating Tailwind CSS types for BuckleScript/ReasonML",
   "main": "index.js",
