@@ -11,6 +11,7 @@ describe("makeReasonableClassName", () => {
     ${"placeholder-pink-800"}     | ${"placeholder_pink_800"}
     ${"sm:bg-red-400"}            | ${"sm__bg_red_400"}
     ${"lg:hover:text-purple-600"} | ${"lg__hover__text_purple_600"}
+    ${"w-1/2"}                    | ${"w_one_half"}
   `(
     "returns $expected when className is $classname",
     ({ classname, expected }) => {
