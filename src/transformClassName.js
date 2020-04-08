@@ -1,4 +1,4 @@
-const stripBrowserPrefixes = cn => {
+const stripBrowserPrefixes = (cn) => {
   let idx = cn.indexOf("::");
   if (idx === -1) {
     idx = cn.indexOf(":-ms-");
@@ -7,14 +7,14 @@ const stripBrowserPrefixes = cn => {
   return idx === -1 ? cn : cn.substring(0, idx);
 };
 
-const transformClassname = cn => {
+const transformClassname = (cn) => {
   // strip out the leading `.`
   let cls = cn.replace(/^(\.)/, "");
   cls = cls.replace(/^(\.)/, "");
 
   // handle psuedo classes
   cls = cls.replace(
-    /\:(responsive|group-hover|focus-within|first|last|odd|even|hover|focus|active|visited|disabled)$/,
+    /\:(responsive|group-hover|focus-within|first|last|odd|even|hover|focus|active|visited|disabled|group:hover|group:focus)$/,
     ""
   );
   // remove extras at end

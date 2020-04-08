@@ -5,11 +5,11 @@ const { camelCase, uniq } = require("lodash");
 const transformClassName = require("./src/transformClassName");
 const makeReasonableClassName = require("./src/makeReasonableClassName");
 
-const writeClass = c => {
+const writeClass = (c) => {
   return `[@bs.inline] let ${makeReasonableClassName(c)} = "${c}";`;
 };
 
-const make = classes => {
+const make = (classes) => {
   const twNames = uniq(classes.map(transformClassName));
   return twNames.map(writeClass).join("\n");
 };
@@ -18,17 +18,24 @@ module.exports = postcss.plugin("postcss-bs-tailwind", (opts = {}) => {
   const { modulePath } = opts;
   return (root, result) => {
     const classes = [];
-    root.walkRules(rule => {
+    root.walkRules((rule) => {
       if (!rule.selector.startsWith(".")) {
         // keep only classes
         return;
       }
 
-      classes.push(rule.selector);
+      let cn = rule.selector;
+
+      const arr = rule.selector.split(" ");
+      if (arr.length > 1) {
+        cn = arr[arr.length - 1];
+      }
+
+      classes.push(cn);
     });
 
     fs.writeFileSync(path.join(process.cwd(), modulePath), make(classes), {
-      encoding: "utf8"
+      encoding: "utf8",
     });
   };
 });
