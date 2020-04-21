@@ -14,7 +14,7 @@ const transformClassname = (cn) => {
 
   // handle psuedo classes
   cls = cls.replace(
-    /\:(responsive|group-hover|focus-within|first|last|odd|even|hover|focus|active|visited|disabled|group:hover|group:focus)$/,
+    /\:(responsive|group-hover|focus-within|first-child|last-child|nth-child\((odd|even)\)|hover|focus|active|visited|disabled|group:hover|group:focus)$/,
     ""
   );
   // remove extras at end
