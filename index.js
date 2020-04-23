@@ -28,10 +28,10 @@ module.exports = postcss.plugin("postcss-bs-tailwind", (opts = {}) => {
 
       const arr = rule.selector.split(" ");
       if (arr.length > 1) {
-        cn = arr[arr.length - 1];
+        arr.filter(s => s.startsWith(".")).forEach(cn => classes.push(cn));
+      } else {
+        classes.push(cn);
       }
-
-      classes.push(cn);
     });
 
     fs.writeFileSync(path.join(process.cwd(), modulePath), make(classes), {
