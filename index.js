@@ -4,6 +4,7 @@ const path = require("path");
 const { camelCase, uniq } = require("lodash");
 const transformClassName = require("./src/transformClassName");
 const makeReasonableClassName = require("./src/makeReasonableClassName");
+const filterClassNamesForProcessing = require("./src/filterClassNamesForProcessing");
 
 const writeClass = (c) => {
   return `[@bs.inline] let ${makeReasonableClassName(c)} = "${c}";`;
@@ -17,21 +18,9 @@ const make = (classes) => {
 module.exports = postcss.plugin("postcss-bs-tailwind", (opts = {}) => {
   const { modulePath } = opts;
   return (root, result) => {
-    const classes = [];
+    let classes = [];
     root.walkRules((rule) => {
-      if (!rule.selector.startsWith(".")) {
-        // keep only classes
-        return;
-      }
-
-      let cn = rule.selector;
-
-      const arr = rule.selector.split(" ");
-      if (arr.length > 1) {
-        arr.filter(s => s.startsWith(".")).forEach(cn => classes.push(cn));
-      } else {
-        classes.push(cn);
-      }
+      classes = classes.concat(filterClassNamesForProcessing(rule.selector));
     });
 
     fs.writeFileSync(path.join(process.cwd(), modulePath), make(classes), {
