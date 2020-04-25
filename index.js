@@ -11,7 +11,7 @@ const writeClass = (c) => {
 };
 
 const make = (classes) => {
-  const twNames = uniq(classes.map(transformClassName));
+  const twNames = classes.map(transformClassName);
   return twNames.map(writeClass).join("\n");
 };
 
@@ -22,6 +22,7 @@ module.exports = postcss.plugin("postcss-bs-tailwind", (opts = {}) => {
     root.walkRules((rule) => {
       classes = classes.concat(filterClassNamesForProcessing(rule.selector));
     });
+    classes = uniq(classes);
 
     fs.writeFileSync(path.join(process.cwd(), modulePath), make(classes), {
       encoding: "utf8",
